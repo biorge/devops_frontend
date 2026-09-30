@@ -12,12 +12,14 @@ import { FormsModule } from '@angular/forms';
 export class App {
   userInput = '';
   infoMessage = '';
+  fileContent = '';   // <-- новое поле для вывода содержимого файла
 
   constructor(private http: HttpClient, private cdr: ChangeDetectorRef) {}
 
   onSend() {
     if (!this.userInput) {
       this.infoMessage = 'Введите что-нибудь!';
+      this.cdr.detectChanges();
       return;
     }
 
@@ -30,6 +32,21 @@ export class App {
         },
         error: () => {
           this.infoMessage = 'Ошибка отправки';
+          this.cdr.detectChanges();
+        }
+      });
+  }
+
+  // НОВЫЙ МЕТОД В v2.0
+  onLoad() {
+    this.http.get<{data: string}>('http://localhost:5000/api/load')
+      .subscribe({
+        next: (res) => {
+          this.fileContent = res.data;
+          this.cdr.detectChanges();
+        },
+        error: () => {
+          this.fileContent = 'Ошибка загрузки';
           this.cdr.detectChanges();
         }
       });

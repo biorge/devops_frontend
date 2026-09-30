@@ -1,8 +1,18 @@
 <div style="padding: 23px; font-family: Roboto;">
-  <h2>Frontend v1.0</h2>
+  <h2>Frontend v2.0</h2>
 
-  <input [(ngModel)]="userInput" placeholder="Что передать на сервер?" />
-  <button (click)="onSend()">Отправить</button>
+  <div>
+    <input [(ngModel)]="userInput" placeholder="Что передать на сервер?" />
+    <button (click)="onSend()">Отправить</button>
+    <p>{{ infoMessage }}</p>
+  </div>
 
-  <p>{{ infoMessage }}</p>
+  <hr>
+
+  <!-- НОВЫЙ БЛОК В v2.0 -->
+  <div style="margin-top: 15px;">
+    <button (click)="onLoad()">Показать содержимое файла</button>
+    <br><br>
+    <textarea rows="6" cols="45" readonly>{{ fileContent }}</textarea>
+  </div>
 </div>
