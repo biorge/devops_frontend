@@ -1,8 +1,8 @@
-<div style="padding: 20px; font-family: Arial;">
+<div style="padding: 23px; font-family: Roboto;">
   <h2>Frontend v1.0</h2>
-  
-  <input [(ngModel)]="inputText" placeholder="Введите текст" />
-  <button (click)="sendData()">Отправить</button>
-  
-  <p>{{ status }}</p>
+
+  <input [(ngModel)]="userInput" placeholder="Что передать на сервер?" />
+  <button (click)="onSend()">Отправить</button>
+
+  <p>{{ infoMessage }}</p>
 </div>

@@ -1,30 +1,37 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectorRef } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { FormsModule } from '@angular/forms'; // Импортируем FormsModule для [(ngModel)]
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [FormsModule], // Добавляем в imports
+  imports: [FormsModule],
   templateUrl: './app.html',
   styleUrls: ['./app.css']
 })
 export class App {
-  inputText = '';
-  status = '';
+  userInput = '';
+  infoMessage = '';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private cdr: ChangeDetectorRef) {}
 
-  sendData() {
-    if (!this.inputText) return;
+  onSend() {
+    if (!this.userInput) {
+      this.infoMessage = 'Введите что-нибудь!';
+      return;
+    }
 
-    this.http.post('http://localhost:5000/api/save', this.inputText, { responseType: 'json' })
+    this.http.post('http://localhost:5000/api/save', this.userInput, { responseType: 'json' })
       .subscribe({
         next: () => {
-          this.status = 'Сохранено!';
-          this.inputText = ''; // Очищаем поле после отправки
+          this.infoMessage = 'Сохранено!';
+          this.userInput = '';
+          this.cdr.detectChanges();
         },
-        error: () => this.status = 'Ошибка отправки'
+        error: () => {
+          this.infoMessage = 'Ошибка отправки';
+          this.cdr.detectChanges();
+        }
       });
   }
 }
